@@ -33,11 +33,4 @@ window.addEventListener('DOMContentLoaded', function() {
 	}
 	setCookie('last-access', now, 60*24); // 1 day expiry
 
-	// Debug button handler
-	var debugBtn = document.getElementById('debug-btn');
-	if (debugBtn && navbar) {
-		debugBtn.addEventListener('click', function() {
-			navbar.style.display = 'block';
-		});
-	}
 });
