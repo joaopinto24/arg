@@ -1,6 +1,6 @@
 body {
   background: #111;
-  color: #39ff14;
+  color: rgb(0, 255, 0);
   font-family: 'IBM Plex Mono', monospace;
   margin: 0;
   padding: 0;
@@ -14,18 +14,18 @@ h1 {
   margin-top: 60px;
   font-size: 3rem;
   letter-spacing: 2px;
-  text-shadow: 0 0 8px #39ff14cc;
+  text-shadow: 0 0 8px rgb(0, 255, 0);
 }
 img {
   margin-top: 32px;
   max-width: 320px;
   width: 100%;
-  border: 2px solid #39ff14;
+  border: 2px solid rgb(0, 255, 0);
   border-radius: 8px;
-  box-shadow: 0 0 16px #39ff1444;
+  box-shadow: 0 0 16px rgb(0, 128, 0);
 }
 .subtitle {
   margin-top: 16px;
   font-size: 1.2rem;
-  color: #39ff14cc;
+  color: rgb(0, 255, 0);
 }
