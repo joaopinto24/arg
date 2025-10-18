@@ -40,6 +40,5 @@ window.addEventListener('DOMContentLoaded',function(){
 		const cipherDiv=document.getElementById('ciphered-text');
 		if(h1) h1.textContent=shift;
 		if(cipherDiv) cipherDiv.textContent=caesarCipher(texto,shift);
-		document.title=shift;
 	}
 });
