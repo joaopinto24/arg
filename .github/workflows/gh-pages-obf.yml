@@ -21,12 +21,16 @@ jobs:
 
       - name: obfuscate all .js files (recursively)
         run: |
-          set -e
+          set -euo pipefail
           # find all JS files (recursively) and obfuscate them in-place
-          find . -type f -name "*.js" ! -path "./node_modules/*" | while read -r f; do
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
             echo "obfuscating $f"
-            tmp="${f}.obftmp"
-            # CLI-safe flags only (avoid JS-API-only flags like --rotate-string-array)
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
             javascript-obfuscator "$f" \
               --output "$tmp" \
               --compact true \
@@ -36,10 +40,741 @@ jobs:
               --string-array true \
               --string-array-threshold 0.75 \
               --disable-console-output true \
-              --self-defending false
-            # replace original
-            mv "$tmp" "$f"
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
           done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
+      - name: obfuscate all .js files (recursively)
+        run: |
+          set -euo pipefail
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while IFS= read -r f; do
+            echo "obfuscating $f"
+            tmp="${f}.obf.tmp.js"
+            # if a temp leftover exists (file or dir), remove it first
+            if [ -e "$tmp" ]; then
+              rm -rf "$tmp"
+            fi
+
+            javascript-obfuscator "$f" \
+              --output "$tmp" \
+              --compact true \
+              --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
+              --string-array true \
+              --string-array-threshold 0.75 \
+              --disable-console-output true \
+              --self-defending false || {
+                echo "javascript-obfuscator failed for $f — skipping"
+                rm -f "$tmp" || true
+                continue
+              }
+
+            # ensure we have a regular file before replacing
+            if [ -f "$tmp" ]; then
+              mv -f "$tmp" "$f"
+            else
+              echo "expected tmp file not found or not a regular file: $tmp"
+              rm -rf "$tmp" || true
+            fi
+          done
+
 
       - name: minify css (recursively)
         run: |
