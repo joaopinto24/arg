@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>segredo 2</title>
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav id="about-navbar" style="display:none; margin-top:24px;">
+    <a href="3.html" style="text-decoration: underline; font-size:1.1rem; color: rgb(0, 200, 0);">segredo</a>
+  </nav>
+  <h1>Segredo final</h1>
+
+  <div id="wait-message" style="display:none;">
+    <p>Você precisa esperar um minuto depois de visitar <a href="3.html">3.html</a>.</p>
+    <p>Aguarde <span id="countdown">60</span> segundos...</p>
+  </div>
+
+  <div id="secret-content" style="display:none;">
+    <p>Parabéns! Você desbloqueou a página secreta.</p>
+    <p id="ciphered-text"></p>
+
+    <form id="word-form" onsubmit="return false;">
+      <label>1. <input id="input1" autocomplete="off" /></label>
+      <span id="status1"></span>
+      <br>
+      <label>2. <input id="input2" autocomplete="off" /></label>
+      <span id="status2"></span>
+      <br>
+      <label>3. <input id="input3" autocomplete="off" /></label>
+      <span id="status3"></span>
+      <br>
+      <label>4. <input id="input4" autocomplete="off" /></label>
+      <span id="status4"></span>
+      <br>
+      <button id="go5" style="display:none; margin-top:12px;">Ir para 5.html</button>
+    </form>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
