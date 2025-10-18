@@ -17,7 +17,7 @@ jobs:
 
       - name: install obfuscation tools
         run: |
-          npm i -g javascript-obfuscator@^7.0.0 html-minifier-terser clean-css-cli
+          npm i -g javascript-obfuscator@4 html-minifier-terser clean-css-cli
 
       - name: obfuscate all .js files (recursively)
         run: |
