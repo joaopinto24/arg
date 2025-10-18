@@ -44,6 +44,28 @@ window.addEventListener('DOMContentLoaded',function(){
 		const cipherDiv=document.getElementById('ciphered-text');
 		if(h1) h1.textContent=shift;
 		if(cipherDiv) cipherDiv.textContent=caesarCipher(texto,shift);
+
+		// show a countdown on 3.html and reveal a button after 60s to navigate to 4.html
+		(function(){
+			const countSpan = document.getElementById('to4-count');
+			const btn = document.getElementById('to4-btn');
+			const waitDiv = document.getElementById('to4-wait');
+			function tick(){
+				const visited = getCookie('visited-3');
+				if(!visited) return;
+				const then = parseInt(visited,10);
+				const remaining = Math.max(0, 60 - Math.floor((Date.now() - then)/1000));
+				if(countSpan) countSpan.textContent = remaining.toString();
+				if(remaining<=0){
+					if(waitDiv) waitDiv.style.display='none';
+					if(btn) btn.style.display='inline-block';
+					clearInterval(interval);
+				}
+			}
+			const interval = setInterval(tick,1000);
+			tick();
+			if(btn) btn.addEventListener('click', function(){ window.location.href='4.html'; });
+		})();
 	}
 
 	// page 4 should be accessible only after ~60 seconds have passed since visiting 3.html
@@ -60,7 +82,7 @@ window.addEventListener('DOMContentLoaded',function(){
 		}
 
 		// verification helpers for the input puzzle
-		const expectedWords = ['ansiedade','reclinar','pico','largura'].map(function(w){
+		const expectedWords = ['revoltado','reclinar','pico','largura'].map(function(w){
 			return w.normalize('NFD').replace(/\p{Diacritic}/gu,'').toLocaleLowerCase();
 		});
 		function normalize(s){
