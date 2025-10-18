@@ -17,42 +17,54 @@ jobs:
 
       - name: install obfuscation tools
         run: |
-          npm i -g javascript-obfuscator html-minifier-terser clean-css-cli
+          npm i -g javascript-obfuscator@^7.0.0 html-minifier-terser clean-css-cli
 
-      - name: obfuscate js
+      - name: obfuscate all .js files (recursively)
         run: |
-          find . -maxdepth 1 -name "*.js" | while read -r f; do
+          set -e
+          # find all JS files (recursively) and obfuscate them in-place
+          find . -type f -name "*.js" ! -path "./node_modules/*" | while read -r f; do
             echo "obfuscating $f"
-            tmp="${f}.tmp"
+            tmp="${f}.obftmp"
+            # CLI-safe flags only (avoid JS-API-only flags like --rotate-string-array)
             javascript-obfuscator "$f" \
               --output "$tmp" \
               --compact true \
               --control-flow-flattening true \
+              --control-flow-flattening-threshold 0.75 \
+              --numbers-to-expressions true \
               --string-array true \
               --string-array-threshold 0.75 \
-              --rotate-string-array true \
-              --disable-console-output true
+              --disable-console-output true \
+              --self-defending false
+            # replace original
             mv "$tmp" "$f"
           done
 
-      - name: minify css
+      - name: minify css (recursively)
         run: |
-          find . -maxdepth 1 -name "*.css" | while read -r f; do
+          find . -type f -name "*.css" ! -path "./node_modules/*" | while read -r f; do
             echo "minifying $f"
             cleancss -o "$f" "$f" || true
           done
 
-      - name: minify html
+      - name: minify html (recursively)
         run: |
-          find . -maxdepth 1 -name "*.html" | while read -r f; do
+          find . -type f -name "*.html" ! -path "./node_modules/*" | while read -r f; do
             echo "minifying $f"
             html-minifier-terser "$f" \
               --collapse-whitespace \
               --remove-comments \
+              --remove-redundant-attributes \
+              --remove-empty-attributes \
               --minify-js \
               --minify-css \
               -o "$f" || true
           done
+
+      - name: remove sourcemaps
+        run: |
+          find . -type f -name "*.map" -print -delete || true
 
       - name: deploy to github pages
         uses: peaceiris/actions-gh-pages@v3
