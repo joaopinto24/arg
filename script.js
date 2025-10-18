@@ -33,13 +33,13 @@ window.addEventListener('DOMContentLoaded',function(){
 				return String.fromCharCode(((c.charCodeAt(0)-base+shift)%26)+base);
 			});
 		}
-	
-		const lorem="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut laoreet dictum, massa erat ultricies enim, nec dictum ex enim eu sem. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.";
+
+		const texto="Era uma casa muito engraçada não tinha         não tinha nada";
 		const shift = Math.floor(Math.random()*25)+1;
 		const h1=document.querySelector('h1');
 		const cipherDiv=document.getElementById('ciphered-text');
 		if(h1) h1.textContent=shift;
-		if(cipherDiv) cipherDiv.textContent=caesarCipher(lorem,shift);
+		if(cipherDiv) cipherDiv.textContent=caesarCipher(texto,shift);
 		document.title=shift;
 	}
 });
